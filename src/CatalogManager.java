@@ -5,9 +5,11 @@ public class CatalogManager {
 
     private final List<Film> catalog = new ArrayList<Film>();
 
-    // todo: Сделать через булевскую переменную, если не найдено, то выбрасывается ошибка
     public void addFilm(String title, String director, int copies) {
-        boolean done = false;
+        //boolean done = false;
+        if (copies <= 0){
+            throw new IllegalArgumentException("Число не может быть отрицательным");
+        }
         Film film = new Film(title, director, copies);
         catalog.add(film);
     }
@@ -20,13 +22,13 @@ public class CatalogManager {
                     film.setAvailableCopies(film.getAvailableCopies() - 1);
                     isFind = true;
                 } else {
-                    throw new NoAvailableCopiesException();
+                    throw new NoAvailableCopiesException("Количество копий фильма меньше одного");
                 }
-                    //использование return, если фильм найден или использовать флаг булевского типа
+                break;
             }
         }
         if(!isFind){
-            throw new ItemNotFoundException();
+            throw new ItemNotFoundException("Фильм не найден");
         }
     }
 
@@ -39,7 +41,7 @@ public class CatalogManager {
             }
         }
         if(!isFind){
-            throw new ItemNotFoundException();
+            throw new ItemNotFoundException("Фильм не найден");
         }
     }
 
